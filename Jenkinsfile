@@ -16,16 +16,16 @@ pipeline {
         // parallel (
           // firefox: {
             container('maven-firefox') {
-              stage('Test firefox') {
+              // stage('Test firefox') {
                 sh 'mvn -B clean test -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
-              }
+              // }
             }
           // },
           // chrome: {
             container('maven-chrome') {
-              stage('Test chrome') {
+              // stage('Test chrome') {
                 sh 'mvn -B clean test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
-              }
+              // }
             }
           // }
         // )
