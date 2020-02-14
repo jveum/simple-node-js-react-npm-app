@@ -11,29 +11,31 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-      git 'https://github.com/carlossg/selenium-example.git'
-      parallel (
-        firefox: {
-          container('maven-firefox') {
-            stage('Test firefox') {
-              sh 'mvn -B clean test -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
+      steps {
+        git 'https://github.com/carlossg/selenium-example.git'
+        parallel (
+          firefox: {
+            container('maven-firefox') {
+              stage('Test firefox') {
+                sh 'mvn -B clean test -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
+              }
+            }
+          },
+          chrome: {
+            container('maven-chrome') {
+              stage('Test chrome') {
+                sh 'mvn -B clean test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
+              }
             }
           }
-        },
-        chrome: {
-          container('maven-chrome') {
-            stage('Test chrome') {
-              sh 'mvn -B clean test -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=5 -Dsleep=0'
-            }
-          }
-        }
-      )
+        )
+      }
     }
 
-    stage('Logs') {
-      containerLog('selenium-chrome')
-      containerLog('selenium-firefox')
-    }
+    // stage('Logs') {
+    //   containerLog('selenium-chrome')
+    //   containerLog('selenium-firefox')
+    // }
   }
 }
 
