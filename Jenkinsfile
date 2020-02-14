@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout') {
       steps {
         git 'https://github.com/carlossg/selenium-example.git'
-        parallel (
+        // parallel (
           firefox: {
             container('maven-firefox') {
               stage('Test firefox') {
@@ -28,7 +28,7 @@ pipeline {
               }
             }
           }
-        )
+        // )
       }
     }
 
